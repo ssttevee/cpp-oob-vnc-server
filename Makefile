@@ -10,8 +10,8 @@ all: bin/hello
 $(OBJ_DIR)/%.o: %.cpp
 	mkdir -p $(dir $@) && $(CC) $(CPPFLAGS) $(CFLAGS) $(TARGET_ARCH) -c -o $@ $<
 
-$(BIN_DIR)/hello: $(addprefix $(OBJ_DIR)/,hello.o av/frame_iterator.o frame_iterator.o)
-	mkdir -p $(dir $@) && $(CC) $(LDFLAGS) $(TARGET_ARCH) $^ -lstdc++ $(shell pkg-config --libs $(LIBS)) $(LOADLIBES) $(LDLIBS) -o $@
+$(BIN_DIR)/hello: $(addprefix $(OBJ_DIR)/,hello.o av/frame_iterator.o frame_iterator.o lazy_screen.o server.o)
+	mkdir -p $(dir $@) && $(CC) $(LDFLAGS) $(TARGET_ARCH) $^ -lstdc++ -lev -lpthread $(shell pkg-config --libs $(LIBS)) $(LOADLIBES) $(LDLIBS) -o $@
 
 .PHONY: clean
 clean:

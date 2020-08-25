@@ -69,7 +69,7 @@ long frame_iterator::time_base_nsec()
     return 1000000000 * (long)time_base.num / (long)time_base.den;
 }
 
-bool frame_iterator::next(char *buf, int linesize)
+bool frame_iterator::next(char *buf, int linesize, long *out_pts)
 {
     if (!it->next(pFrame))
     {
@@ -82,10 +82,13 @@ bool frame_iterator::next(char *buf, int linesize)
     }
     else
     {
+        // TODO fix copying non-contiguous data
         memcpy(buf, pFrame->data[0], linesize * height());
     }
 
-    last_pts = pFrame->pts;
+    if (out_pts) {
+        *out_pts = pFrame->pts;
+    }
 
     av_frame_unref(pFrame);
 

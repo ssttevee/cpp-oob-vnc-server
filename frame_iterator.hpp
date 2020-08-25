@@ -23,8 +23,6 @@ class frame_iterator
 
     av::FrameIterator *it = nullptr;
 
-    long last_pts;
-
 public:
     frame_iterator(std::string filename, enum AVPixelFormat pix_fmt);
     ~frame_iterator();
@@ -33,9 +31,7 @@ public:
     int width() { return it->width(); }
     int height() { return it->height(); }
 
-    bool next(char *buf, int linesize);
-
-    long pts() { return last_pts; };
+    bool next(char *buf, int linesize, long *out_pts);
 
     void rewind();
 };
